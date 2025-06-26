@@ -83,6 +83,7 @@ public:
 
 class OptimizedVisitor : public Visitor{
 public:
+    int visit(Program* program) override;
     int imprimir(Program* program);
     int visit(BinaryExp* exp) override;
     int visit(NumberExp* exp) override;

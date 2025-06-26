@@ -93,8 +93,7 @@ int FunDecList::accept(Visitor *visitor)
     return 0;
 }
 
-int Program::accept(Visitor *visitor)
-{
+int Program::accept(Visitor *visitor){
     visitor->visit(this);
     return 0;
 }
@@ -323,7 +322,12 @@ int GenCodeVisitor::visit(FCallExp* exp) {
 }
 
 ////////////////////////////
-int imprimir(Program* program){
+int OptimimizedVisitor::visit(Program* program){
+    program->accept(this);
+    return 0;
+}
+
+int OptimizedVisitor::imprimir(Program* program){
     program->vardecs->accept(this);
     cout<<endl;
     program->fundecs->accept(this);
