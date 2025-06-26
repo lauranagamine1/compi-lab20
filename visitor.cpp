@@ -332,15 +332,26 @@ int OptimizedVisitor::imprimir(Program* program){
 }
 
 int OptimizedVisitor::visit(BinaryExp* exp) {
-    exp->left->accept(this);
-    cout << ' ' << Exp::binopToChar(exp->op) << ' ';
-    exp->right->accept(this);
+    int a=exp->left->accept(this);
+    //cout << ' ' << Exp::binopToChar(exp->op) << ' ';
+    int b =exp->right->accept(this);
+    switch(exp->op){
+        case PLUS_OP:
+            return b+a;
+        case MINUS_OP:
+            return a-b;
+        case MUL_OP:
+            return a*b;
+        case DIV_OP:
+            return a/b;
+        default:
+            return 0;
+    }
     return 0;
 }
 
 int OptimizedVisitor::visit(NumberExp* exp) {
-    cout << exp->value;
-    return 0;
+    return exp->value;
 }
 
 int OptimizedVisitor::visit(BoolExp* exp) {
@@ -356,7 +367,7 @@ int OptimizedVisitor::visit(IdentifierExp* exp) {
 
 void OptimizedVisitor::visit(AssignStatement* stm) {
     cout << stm->id << " = ";
-    stm->rhs->accept(this);
+    cout<<stm->rhs->accept(this);
     cout << ";";
 
 }
