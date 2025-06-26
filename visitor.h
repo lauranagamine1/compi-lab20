@@ -94,13 +94,14 @@ public:
     void visit(VarDec* stm) override;
     void visit(VarDecList* stm) override;
     void visit(StatementList* stm) override;
-    void visit(Body* b) override;
+    void visit(Body* e) override;
     void visit(WhileStatement* stm) override;
 
     int visit(FCallExp* exp) override;
     void visit(ReturnStatement* stm) override;
     void visit(FunDec* f) override;
-    void visit(FunDecList* f) override;
+    void visit(FunDecList* e) override;
+
     // for
 };
 

@@ -324,64 +324,136 @@ int GenCodeVisitor::visit(FCallExp* exp) {
 
 ////////////////////////////
 int imprimir(Program* program){
-
+    program->vardecs->accept(this);
+    cout<<endl;
+    program->fundecs->accept(this);
+    return 0;
 }
 
 int OptimizedVisitor::visit(BinaryExp* exp) {
-
+    exp->left->accept(this);
+    cout << ' ' << Exp::binopToChar(exp->op) << ' ';
+    exp->right->accept(this);
+    return 0;
 }
 
 int OptimizedVisitor::visit(NumberExp* exp) {
-
+    cout << exp->value;
+    return 0;
 }
 
 int OptimizedVisitor::visit(BoolExp* exp) {
-
+    if(exp->value) cout << "true";
+    else cout << "false";
+    return 0;
 }
 
 int OptimizedVisitor::visit(IdentifierExp* exp) {
-
+    cout << exp->name;
+    return 0;
 }
 
 void OptimizedVisitor::visit(AssignStatement* stm) {
+    cout << stm->id << " = ";
+    stm->rhs->accept(this);
+    cout << ";";
 
 }
 
 void OptimizedVisitor::visit(PrintStatement* stm) {
+    cout << "print(";
+    stm->e->accept(this);
+    cout << ");";
 
 }
 
 void OptimizedVisitor::visit(VarDec* stm){
-
+    cout << "var ";
+    cout << stm->type;
+    cout << " ";
+    for(auto i: stm->vars){
+        cout << i;
+        if(i != stm->vars.back()) cout << ", ";
+    }
+    cout << ";";
 }
 
 void OptimizedVisitor::visit(VarDecList* stm){
-
+    for(auto i: stm->vardecs) {
+        i->accept(this);
+        cout << endl;
+    }
 }
 
 void OptimizedVisitor::visit(StatementList* stm){
-
+    for(auto i: stm->stms){
+        i->accept(this);
+        cout << endl;
+    }
 }
 void OptimizedVisitor::visit(IfStatement* stm) {
-
+    cout << "if ";
+    stm->condition->accept(this);
+    cout << " then" << endl;
+    stm->then->accept(this);
+    if(stm->els){
+        cout << "else" << endl;
+        stm->els->accept(this);
+    }
+    cout << "endif";
 }
 
 void OptimizedVisitor::visit(WhileStatement* stm) {
-
+    cout << "while ";
+    stm->condition->accept(this);
+    cout << " do" ;
+    stm->b->accept(this);
+    cout << "endwhile";
 }
 
 int OptimizedVisitor::visit(FCallExp* exp) {
+    cout<<exp->nombre<<"(";
+    for(auto i: exp->argumentos){
+        i->accept(this);
+        if(i != exp->argumentos.back()) cout << ", ";
+    }
+    cout<<")";
+    return 0;
 
 }
 
 void OptimizedVisitor::visit(ReturnStatement* stm) {
+    cout << "return ";
+    stm->e->accept(this);
+    cout << ";";
 
 }
 
-void OptimizedVisitor::visit(FunDec* f) {
+void OptimizedVisitor::visit(FunDec* e) {
+    cout << "fun " << e->tipo << " " << e->nombre << "(";
+
+    for(auto it = e->parametros.begin(), it2 = e->tipos.begin(); it!= e->parametros.end(), it2 != e->tipos.end(); ++it, ++it2){
+        cout<<(*it2)<<" ";
+        cout<<(*it);
+        if (next(it) != e->parametros.end()) cout << ",";
+    }
+
+    cout << ")" << endl;
+    e->cuerpo->accept(this);
+    cout << "endfun";
+}
+
+void OptimizedVisitor::visit(FunDecList* e) {
+    for(auto i: e->Fundecs){
+        i->accept(this);
+        cout << endl;
+    }
 
 }
 
-void OptimizedVisitor::visit(FunDecList* f) {
+void OptimizedVisitor::visit(Body* b){
+    b->vardecs->accept(this);
+    cout << endl;
+    b->slist->accept(this);
 
 }
