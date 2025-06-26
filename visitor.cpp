@@ -322,11 +322,8 @@ int GenCodeVisitor::visit(FCallExp* exp) {
 }
 
 ////////////////////////////
-int OptimimizedVisitor::visit(Program* program){
-    program->accept(this);
-    return 0;
-}
 
+OptimizedVisitor::OptimizedVisitor() {}
 int OptimizedVisitor::imprimir(Program* program){
     program->vardecs->accept(this);
     cout<<endl;
@@ -436,10 +433,13 @@ void OptimizedVisitor::visit(ReturnStatement* stm) {
 void OptimizedVisitor::visit(FunDec* e) {
     cout << "fun " << e->tipo << " " << e->nombre << "(";
 
-    for(auto it = e->parametros.begin(), it2 = e->tipos.begin(); it!= e->parametros.end(), it2 != e->tipos.end(); ++it, ++it2){
-        cout<<(*it2)<<" ";
-        cout<<(*it);
-        if (next(it) != e->parametros.end()) cout << ",";
+    auto it1 = e->parametros.begin();
+    auto it2 = e->tipos.begin();
+    while (it1 != e->parametros.end() && it2 != e->tipos.end()) {
+        cout << *it2 << " " << *it1;
+        ++it1;
+        ++it2;
+        if (it1 != e->parametros.end()) cout << ", ";
     }
 
     cout << ")" << endl;

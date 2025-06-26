@@ -48,6 +48,11 @@ int main(int argc, const char* argv[]) {
         labeler.visit(program);
         GenCodeVisitor codigo(outfile);
         codigo.generar(program);
+
+        cout<<"Print visitor:"<<endl;
+        OptimizedVisitor optimizedVisitor;
+        optimizedVisitor.imprimir(program);
+
         outfile.close();
         delete program;
     } catch (const exception& e) {

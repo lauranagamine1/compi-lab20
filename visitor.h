@@ -83,7 +83,9 @@ public:
 
 class OptimizedVisitor : public Visitor{
 public:
-    int visit(Program* program) override;
+    //int visit(Program* program) override;
+    OptimizedVisitor();
+    void visit(Program* p) override{}
     int imprimir(Program* program);
     int visit(BinaryExp* exp) override;
     int visit(NumberExp* exp) override;
@@ -95,7 +97,7 @@ public:
     void visit(VarDec* stm) override;
     void visit(VarDecList* stm) override;
     void visit(StatementList* stm) override;
-    void visit(Body* e) override;
+    void visit(Body* b) override;
     void visit(WhileStatement* stm) override;
 
     int visit(FCallExp* exp) override;
